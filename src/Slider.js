@@ -6,13 +6,12 @@ class Slider {
 
         this.time = options.autoLoopTime;
         this.widthHeights = options.sliderHeights;
-        this.hasDots = (options.hasDots !== false ) ? true : options.hasDots; // If not deactivated by user default is true
+        this.hasDotNav = (options.hasDotNav !== false ) ? true : options.hasDotNav; // If not deactivated by user default is true
 
-        this.slides = document.querySelectorAll("#" + this.sliderId + " [class^='slideWrapper'] .slide");
+        this.slides = document.querySelectorAll("#" + this.sliderId + " [class^='slideWrapper']");
 
         this.activeSlide = 0;
         this.nextAndPrevButtons = options.nextAndPrevButtons;
-
 
         this.loop.bind(this);
 
@@ -30,7 +29,7 @@ class Slider {
             this.autoLoop = setInterval(this.loop.bind(this), this.time);
         }
 
-        if (this.hasDots) {
+        if (this.hasDotNav) {
             this.addDots();
         }
 
@@ -75,7 +74,14 @@ class Slider {
         var self = this;
         this.dotsWrapper = document.querySelector("#" + this.sliderId + " .dotsWrapper");
         this.dots = [];
-        this.slides.forEach(function (s, i) {
+
+        var slides = [];
+
+        for (var i = 0; i < self.slides.length; i++) {
+            slides[i] = self.slides[i];
+        }
+
+        slides.forEach((s, i) => {
             var el = document.createElement("div");
             el.className = "dot";
             self.dotsWrapper.appendChild(el);
@@ -84,15 +90,16 @@ class Slider {
                 self.showSlide(i);
             }
         });
-        this.dots[this.activeSlide].className = "active dot"
+        this.dots[this.activeSlide].className = "active dot";
     }
 
     showSlide(i) {
         var oldActiveSlide = this.activeSlide;
-        this.slides[this.activeSlide].className = "slide";
-        this.slides[(this.activeSlide = i)].className = "active slide";
 
-        if (this.hasDots) {
+        this.slides[this.activeSlide].classList.remove("active");
+        this.slides[(this.activeSlide = i)].classList.add("active");
+
+        if (this.hasDotNav) {
             this.dots[oldActiveSlide].className = "dot";
             this.dots[this.activeSlide].className = "active dot";
         }
@@ -103,23 +110,26 @@ class Slider {
         }
     };
 
-    /*Auto loop every "this.time" Second*/
+    /*Auto loop every 5 Second*/
     loop() {
         var self = this;
         var oldActiveSlide = this.activeSlide;
-        if (self.activeSlide == (self.slides.length - 1)) {
-            self.slides[self.activeSlide].className = "slide";
-            self.slides[(self.activeSlide = 0)].className = "active slide";
+        var length = self.slides.length - 1;
+        if (self.activeSlide == length) {
+            // self.activeSlide = 0;
+            self.slides[oldActiveSlide].classList.remove("active");
+            self.slides[self.activeSlide = 0].classList.add("active");
 
-            if (this.hasDots) {
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
 
         } else {
-            self.slides[self.activeSlide].className = "slide";
-            self.slides[++self.activeSlide].className = "active slide";
-            if (this.hasDots) {
+            self.slides[self.activeSlide].classList.remove("active");
+            self.slides[++self.activeSlide].classList.add("active");
+
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
@@ -132,11 +142,11 @@ class Slider {
         var oldActiveSlide = this.activeSlide;
 
         if (this.activeSlide == (this.slides.length - 1)) {
-            this.slides[this.activeSlide].className = "slide";
 
-            this.slides[(this.activeSlide = 0)].className = "active slide";
+            this.slides[this.activeSlide].classList.remove("active");
+            this.slides[(this.activeSlide = 0)].classList.add("active");
 
-            if (this.hasDots) {
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
@@ -146,11 +156,10 @@ class Slider {
                 this.autoLoop = setInterval(this.loop.bind(this).bind(this), this.time);
             }
         } else {
-            this.slides[this.activeSlide].className = "slide";
+            this.slides[this.activeSlide].classList.remove("active");
+            this.slides[++this.activeSlide].classList.add("active");
 
-            this.slides[++this.activeSlide].className = "active slide";
-
-            if (this.hasDots) {
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
@@ -167,12 +176,10 @@ class Slider {
         var oldActiveSlide = this.activeSlide;
 
         if (this.activeSlide == (0)) {
-            this.slides[this.activeSlide].className = "slide";
+            this.slides[this.activeSlide].classList.remove("active");
+            this.slides[(this.activeSlide = (this.slides.length - 1))].classList.add("active");
 
-            this.slides[(this.activeSlide = (this.slides.length - 1))].className = "active slide";
-
-
-            if (this.hasDots) {
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
@@ -182,11 +189,10 @@ class Slider {
                 this.autoLoop = setInterval(this.loop.bind(this).bind(this), this.time);
             }
         } else {
-            this.slides[this.activeSlide].className = "slide";
+            this.slides[this.activeSlide].classList.remove("active");
+            this.slides[--this.activeSlide].classList.add("active");
 
-            this.slides[--this.activeSlide].className = "active slide";
-
-            if (this.hasDots) {
+            if (this.hasDotNav) {
                 this.dots[oldActiveSlide].className = "dot";
                 this.dots[this.activeSlide].className = "active dot";
             }
@@ -199,5 +205,5 @@ class Slider {
     };
 
 }
-
 exports.Slider = Slider;
+

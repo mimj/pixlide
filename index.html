@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Slider Example</title>
+    <link rel="stylesheet" href="../dist/Slider.css">
+    <link rel="stylesheet" href="styles/atom-one-light.css">
+    <style>
+        @font-face {
+            font-family: "B Nazanin";
+            src: url("example/fonts/BNazanin.woff") format("woff"),
+            url("example/fonts/BNazanin.ttf") format("ttf"),
+            url("example/fonts/BNazanin.eot") format("eot");
+        }
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        h1, h2, p {
+            font-family: "B Nazanin";
+            font-weight: bold;
+            color: #323232;
+        }
+
+        code {
+            background-color: #727272;
+        }
+
+        .main {
+            width: 100%;
+            margin: auto;
+            max-width: 800px;
+        }
+
+        .row {
+            margin-bottom: 20px;
+            /*background-color: red;*/
+            width: 100%;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .col {
+            float: right;
+            /*margin:7px;*/
+        }
+
+        .full, .half {
+            width: 100%;
+        }
+
+        @media only screen and (min-width: 750px) {
+            .main {
+                width: 85%;
+            }
+
+            .half {
+                width: 50%
+            }
+        }
+
+        @media only screen and (min-width: 990px) {
+            .main {
+                width: 70%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1 style="text-align: center">اسلایدر<span style="font-size: .6em;">نسخه 0.1.0</span></h1>
+    <div class="row">
+        <div class="col full">
+            <div class="slider-container-same-resolution" id="slider-container"
+                 style="box-shadow:0px 5px 10px 0px #5d5d5d">
+                <div class="slideWrapper-same-resolution active ">
+                    <img src="example/images/sameres/1.jpg" class="slide">
+                </div>
+                <div class="slideWrapper-same-resolution">
+                    <img src="example/images/sameres/2.jpg" class="slide">
+                </div>
+                <div class="slideWrapper-same-resolution">
+                    <img src="example/images/sameres/3.jpg" class="slide">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h2>نحوه استفاده</h2>
+        <p>ساختار html برای اسلایدر با عکس های هم اندازه به این صورت است:</p>
+        <pre dir="ltr">
+            <code class="html" style="font-size: 1.1em" dir="ltr">
+            &lt;div class="slider-container-same-resolution" id="slider-container">
+                &lt;div class="slideWrapper-same-resolution active ">
+                    &lt;img src="images/sameres/1.jpg" class="slide">
+                &lt;/div>
+                &lt;div class="slideWrapper-same-resolution">
+                    &lt;img src="images/sameres/2.jpg" class="slide">
+                &lt;/div>
+                &lt;div class="slideWrapper-same-resolution">
+                    &lt;img src="images/sameres/3.jpg" class="slide">
+                &lt;/div>
+            &lt;/div>
+            </code>
+        </pre>
+        <p>ابتدا کلاس اسلایدر را وارد کنید.</p>
+        <pre dir="ltr">
+            <code class="javascript" style="font-size: 1.1em">
+            var {Slider} =require("../src/Slider.js");
+            </code>
+        </pre>
+        <p> سپس یک شی از کلاس اسلایدر با تنظیمات مورد نظر بسازید و متد Init را فراخوانی کنید.</p>
+        <pre dir="ltr">
+            <code class="javascript" style="font-size: 1.1em" dir="ltr">
+            var s = new Slider({
+                sliderId: "slider-container"/* اسلایدر مورد نظر ID*/,
+                autoLoopTime: 3000/*زمان مورد نظر برای هر اسلاید*/,
+                hasDotNav: false /*true دکمه های پایین اسلایدر برای جابجایی. پیشفرض */,
+                nextAndPrevButtons: false, /*true پیشفرض */
+            });
+            s.init();
+            </code>
+        </pre>
+        <div class="row">
+            <div class="col full">
+                <div id="slider-container2" class="slider-container" style="box-shadow:0px 5px 10px 0px #5d5d5d">
+                    <div class="slideWrapper active">
+                        <img src="example/images/1.jpg" class="slide" alt="">
+                    </div>
+                    <div class="slideWrapper ">
+                        <img src="example/images/2.jpg" class="slide" alt="">
+                    </div>
+                    <div class="slideWrapper ">
+                        <img src="example/images/3.jpg" class="slide" alt="">
+                    </div>
+                    <a class="next">&#x2771;</a>
+                    <a class="prev">&#10096;</a>
+                    <div class="dotsWrapper"></div>
+                </div>
+            </div>
+        </div>
+        <h2>اسلایدر با عکس های رزولوشن متفاوت<span style="font-size: .65em"> برای مواقعی که عکس ها رزولوشن یکسان ندارند و نمایش تمام عکس نیز اهمیت دارد(مثل آثار هنری) </span>
+        </h2>
+        <p>html برای اسلایدر با عکس های غیر هم اندازه به این صورت است:</p>
+        <pre dir="ltr">
+            <code class="atom-one-light" style="font-size: 1.1em" dir="ltr">
+            &lt;div class="slider-container" id="slider-container2">
+                &lt;div class="slideWrapper active ">
+                    &lt;img src="images/1.jpg" class="slide">
+                &lt;/div>
+                &lt;div class="slideWrapper">
+                    &lt;img src="images/2.jpg" class="slide">
+                &lt;/div>
+                &lt;div class="slideWrapper">
+                    &lt;img src="images/3.jpg" class="slide">
+                &lt;/div>
+                &lt;a class="next">&#x2771;&lt;/a>
+                &lt;a class="prev">&#10096;&lt;/a>
+                &lt;div class="dotsWrapper">&lt;/div>
+            &lt;/div>
+            </code>
+        </pre>
+        <p> چون در این حالت ارتفاع اسلایدر باید ثابت باشد میتوانید برای عرضهای مختلف -به تعداد دلخواه- ارتفاع مناسب
+            اسلایدر را تعیین کنید. به این صورت که (برای مثال) برای عرض های تا 600px ارتفاع اسلایدر 100px و برای عرض
+            حداقل 600px ارتفاع اسلایدر 200px و برای عرض حد اقل 992px ارتفاع اسلایدر 300px و ... .</p>
+        <pre dir="ltr">
+            <code class="atom-one-light" style="font-size: 1.1em">
+            var s2 = new Slider({
+                sliderId: "slider-container2",
+
+                sliderHeights: {
+                    "0": "100",
+                    "600": "200",
+                    "992": "300",
+                    "1200": "450",
+                },
+
+                autoLoopTime: 4000,
+                hasDotNav: true /*true پیشفرض */,
+                nextAndPrevButtons: true /*true پیشفرض */
+            });
+            s2.init();
+            </code>
+        </pre>
+    </div>
+</div>
+</div>
+<script src="highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="../dist/Slider.js"></script>
+</body>
+</html>

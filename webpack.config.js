@@ -4,7 +4,7 @@ var extractTextPlugin = new ExtractTextPlugin({
     filename: 'Slider.css'
 });
 module.exports = {
-    entry: './index.js',
+    entry: './example/main.js',
     output: {
         filename: 'Slider.js',
         path: path.resolve(__dirname, 'dist'),
@@ -27,10 +27,16 @@ module.exports = {
                         presets: ['env']
                     }
                 }
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                ]
             }
         ]
     },
-    plugins:[
+    plugins: [
         extractTextPlugin
     ]
 };
